@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <h1>register student</h1> -->
+
+    {% extends "base.html" %}
+
+    {% block content %}
+
+
+
+    <!-- Start Side Vav -->
+
+    <!-- End Side Vav -->
+    <a class="close_side_menu" href="javascript:void(0);"></a>
+
+    <!-- Start breadcrumb Area -->
+    <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-inner text-center">
+                        <h2 class="title">Register a Lecturer</h2>
+                        <ul class="page-list">
+                            <li class="rbt-breadcrumb-item"><a href="{% url 'homePage' %}">Home</a></li>
+                            <li>
+                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                            </li>
+                            <li class="rbt-breadcrumb-item active">register Lecturer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumb Area -->
+    {% for message in messages %}
+    <div {% if message.tags %} class=" alert alert-{{ message.tags }}" {% endif %}>
+        <b>{{ message }}</b>
+    </div>
+    
+    {% endfor %}
+    <div class="rbt-elements-area bg-color-white rbt-section-gap">
+        <div class="container">
+            <div class="row gy-5 row--30">
+
+                <div class="col-lg-12">
+                    <div class="rbt-contact-form contact-form-style-1 max-width-auto">
+                        <h3 class="title">Register</h3>
+                        {% if user_form.errors or specific_form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{user_form.errors}} {{ specific_form.errors}}
+                        </div>
+                        {% endif %}
+
+                        <form class="max-width-auto" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <!-- <input type="text" name="registration_number"> -->
+                                {{user_form.full_name}}
+                                <label>Lecturer {{ user_form.full_name.label}} *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- <input type="text" name="registration_number"> -->
+                                {{user_form.username}}
+                                <label>Lecturer {{ user_form.username.label}} *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <div class="form-group">
+                                {{ user_form.email}}
+                                <label>Lecturer {{ user_form.email.label}} *</label>
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <h5>Lecturer Department</h5>
+                            <div class="form-group">
+
+                                {{ specific_form.department}}
+                                <span class="focus-border"></span>
+                            </div>
+
+                            <h5 style="margin-top: 50px;"> Lecturer's Position</h5>
+                            <div class="form-group">
+                                {{ specific_form.position}}
+
+                                <span class="focus-border"></span>
+                            </div>
+
+
+                            <div class="form-submit-group" style="margin-top: 30px;">
+                                <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse w-100">
+                                    <span class="icon-reverse-wrapper">
+                                        <span class="btn-text">Register</span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Start Footer aera -->
+    {% endblock content %}
+
+

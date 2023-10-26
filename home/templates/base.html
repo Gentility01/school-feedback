@@ -1,0 +1,455 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>AEFUNAI</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/logo/schoollogo.png' %}">
+
+    <!-- CSS
+	============================================ -->
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/vendor/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/sal.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/feather.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/euclid-circulara.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/swiper.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnify.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/odometer.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/animation.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/bootstrap-select.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnigy-popup.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/plyr.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+    /* Add your custom styles here */
+    .feedback-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .feedback-item {
+        border: 1px solid #ccc;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .feedback-item:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback-item .feedback-content {
+        margin-bottom: 10px;
+    }
+
+    .feedback-item .dropdown-menu {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .feedback-item .response {
+        font-style: italic;
+        margin-top: 10px;
+    }
+    
+</style>
+
+<body class="rbt-header-sticky">
+
+
+
+    <!-- Start Header Area  -->
+    <header class="rbt-header rbt-header-10">
+        <div class="rbt-sticky-placeholder"></div>
+        <div class="rbt-header-wrapper header-space-betwween header-transparent header-sticky">
+            <div class="container-fluid">
+                <div class="mainbar-row rbt-navigation-start align-items-center">
+                    <div class="header-left rbt-header-content">
+                        <div class="header-info">
+                            <div class="logo">
+                                <a href="https://funai.edu.ng/">
+                                    <img src="{% static 'assets/images/logo/schoollogo.png' %}"
+                                        alt="Education Logo Images">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rbt-main-navigation d-none d-xl-block">
+                        <nav class="mainmenu-nav">
+                            <ul class="mainmenu">
+                                <li class="with-megamenu has-menu-child-item position-static">
+                                    <a href="{% url 'homePage' %}">Home </a>
+
+                                </li>
+
+                                <li class="with-megamenu has-menu-child-item position-static">
+                                    <a href="https://funai.edu.ng/vision-mission/">About the school </a>
+
+                                </li>
+
+
+
+                                <li class="has-dropdown has-menu-child-item">
+                                    <a href="#">More
+                                        <i class="feather-chevron-down"></i>
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                    {% if user.student %}
+                                    <ul class="submenu">
+                                        <li class="has-dropdown"><a href="#">My Dashboard</a>
+                                            <ul class="submenu">
+                                                <li><a href="{% url 'student_dashboard' %}">Dashboard</a></li>
+                                                <li><a href="{% url 'student_profile' %}">Profile</a></li>
+
+                                            </ul>
+                                    {% elif user.lecturer %}
+                                    <ul class="submenu">
+                                        <li class="has-dropdown"><a href="#">My Dashboard</a>
+                                            <ul class="submenu">
+                                                <li><a href="{% url 'lecturer_dashboard' %}">Dashboard</a></li>
+                                                <li><a href="instructor-profile.html">Profile</a></li>
+
+                                            </ul>
+                                    
+                                    {% endif %}
+                                    {% endif %}
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="header-right">
+                        <div class="rbt-btn-wrapper d-none d-xl-block">
+                            <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
+                                href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="header-right">
+                            <div class="rbt-btn-wrapper d-none d-xl-block">
+                                <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
+                                    href="{% url 'logout_template' %}">
+                                    Login
+                                </a>
+                            </div>
+                            {% endif %}
+                            <!-- Start Mobile-Menu-Bar -->
+                            <div class="mobile-menu-bar d-block d-xl-none">
+                                <div class="hamberger">
+                                    <button class="hamberger-button rbt-round-btn">
+                                        <i class="feather-menu"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Start Mobile-Menu-Bar -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </header>
+    <!-- End Header Area  -->
+
+    <!-- Mobile Menu Section -->
+    <div class="popup-mobile-menu">
+        <div class="inner-wrapper">
+            <div class="inner-top">
+                <div class="content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="{% static 'assets/images/logo/schoollogo.png' %}" alt="Education Logo Images">
+                        </a>
+                    </div>
+                    <div class="rbt-btn-close">
+                        <button class="close-button rbt-round-btn"><i class="feather-x"></i></button>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <nav class="mainmenu-nav">
+                <ul class="mainmenu">
+                    <li class="with-megamenu has-menu-child-item position-static">
+                        <a href="https://funai.edu.ng/">Home</a>
+
+                    </li>
+
+                    <li class="with-megamenu has-menu-child-item">
+                        <a href="https://funai.edu.ng/vision-mission/">About <i class="feather-chevron-down"></i></a>
+
+                    </li>
+
+                    <li class="has-dropdown has-menu-child-item">
+                        <a href="#">Dashboard
+                            <i class="feather-chevron-down"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li class="has-dropdown"><a href="#">Instructor Dashboard</a>
+                                <ul class="submenu">
+                                    <li><a href="instructor-dashboard.html">Dashboard</a></li>
+                                    <li><a href="instructor-profile.html">Profile</a></li>
+
+                                    <li><a href="instructor-settings.html">Settings</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-dropdown"><a href="#">Student Dashboard</a>
+                                <ul class="submenu">
+                                    <li><a href="student-dashboard.html">Dashboard</a></li>
+                                    <li><a href="student-profile.html">Profile</a></li>
+
+                                    <li><a href="student-settings.html">Settings</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+
+
+
+        </div>
+    </div>
+
+    <!-- End Mobile Area  -->
+
+
+    {% block content %}
+
+    {% endblock content %}
+
+    <footer class="rbt-footer footer-style-1 bg-color-white overflow-hidden">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row g-5">
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget">
+                            <div class="logo">
+                                <a href="index.html">
+                                    <img src="{% static 'assets/images/logo/schoollogo.png' %}" alt="Edu-cause">
+                                </a>
+                            </div>
+
+                            <p class="description mt--20">Alex Ekwueme Federal Univesity, Ndufu-Alike Ikwo, Abakaliki, Ebonyi State
+                            </p>
+
+                            <ul class="social-icon social-default justify-content-start">
+                                <li><a href="https://www.facebook.com/">
+                                        <i class="feather-facebook"></i>
+                                    </a>
+                                </li>
+                                <li><a href="https://www.twitter.com">
+                                        <i class="feather-twitter"></i>
+                                    </a>
+                                </li>
+                                <li><a href="https://www.instagram.com/">
+                                        <i class="feather-instagram"></i>
+                                    </a>
+                                </li>
+                                <li><a href="https://www.linkdin.com/">
+                                        <i class="feather-linkedin"></i>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <a href="https://funai.edu.ng/contact-us/">
+                                <div class="contact-btn mt--30">
+                                    <a class="rbt-btn hover-icon-reverse btn-border-gradient radius-round" href="#">
+                                        <div class="icon-reverse-wrapper">
+                                            <span class="btn-text">Contact With Us</span>
+                                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </a>
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget">
+                            <h3 class="ft-title">Students</h3>
+                            <ul class="ft-link">
+                                <li>
+                                    <a href="">Student Information</a>
+                                </li>
+                                <li>
+                                    <a href="">Schedule of Classes </a>
+                                </li>
+                                <li>
+                                    <a href="">Course Information</a>
+                                </li>
+                                <li>
+                                    <a href="">Check Admission Status</a>
+                                </li>
+                                <li>
+                                    <a href="">Technical Services</a>
+                                </li>
+                                <li>
+                                    <a href="">Financials</a>
+                                </li>
+                                <li>
+                                    <a href="">Portal Login</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget">
+                            <h3 class="ft-title">ALUMNI </h3>
+                            <ul class="ft-link">
+                                <li>
+                                    <a href="">Awards</a>
+                                </li>
+                                <li>
+                                    <a href="">Events</a>
+                                </li>
+                                <li>
+                                    <a href="">Online Community </a>
+                                </li>
+                                <li>
+                                    <a href="">Projects</a>
+                                </li>
+                                <li>
+                                    <a href="">Leadership</a>
+                                </li>
+                                <li>
+                                    <a href="">Benefits & Resources </a>
+                                </li>
+                                <li>
+                                    <a href="">About Us</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="footer-widget">
+                            <h3 class="ft-title">CALENDAR </h3>
+                            <ul class="ft-link">
+                                <li><span>Phone:</span> <a href="#">Academic Calendar </a></li>
+                                <li><span>Phone:</span> <a href="#">Event Calendar </a></li>
+                                <li><span>Phone:</span> <a href="#">Admission Calendar </a></li>
+                                <li><span>Phone:</span> <a href="#">Recruitment Calendar </a></li>
+                                <li><span>Phone:</span> <a href="#">Stories </a></li>
+                               
+                               
+                               
+                               
+                               
+                               
+                            </ul>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rbt-separator-mid">
+            <div class="container">
+                <hr class="rbt-separator m-0">
+            </div>
+        </div>
+        <!-- Start Copyright Area  -->
+        <div class="copyright-area copyright-style-1 ptb--20">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-12">
+                        <p class="rbt-link-hover text-center text-lg-start">Copyright © 2023 <a
+                                href="https://my-folio.onrender.com/">Douglas Chiemela.</a> All Rights Reserved
+                        </p>
+                    </div>
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-12">
+                        <ul
+                            class="copyright-link rbt-link-hover justify-content-center justify-content-lg-end mt_sm--10 mt_md--10">
+                            <li><a href="#">Terms of service</a></li>
+                            <li><a href="privacy-policy.html">Privacy policy</a></li>
+                            <li><a href="subscription.html">Subscription</a></li>
+                            <li><a href="login.html">Login & Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Copyright Area  -->
+    </footer>
+    <!-- End Footer aera -->
+    <div class="rbt-progress-parent">
+        <svg class="rbt-back-circle svg-inner" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+
+    <!-- JS
+============================================ -->
+    <!-- Modernizer JS -->
+    <script src="{% static 'assets/js/vendor/modernizr.min.js' %}"></script>
+    <!-- jQuery JS -->
+    <script src="{% static 'assets/js/vendor/jquery.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'assets/js/vendor/bootstrap.min.js' %}"></script>
+    <!-- sal.js -->
+    <script src="{% static 'assets/js/vendor/sal.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/swiper.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/magnify.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-appear.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/odometer.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/backtotop.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/isotop.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/imageloaded.js' %}"></script>
+
+    <script src="{% static 'assets/js/vendor/wow.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/waypoint.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/easypie.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/text-type.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-one-page-nav.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-ui.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/magnify-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/paralax-scroll.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/paralax.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/countdown.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/plyr.js' %}"></script>
+    
+    <!-- Main JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+
+
+    
+</body>
+
+</html>

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- Start Slider Area  -->
+<div class="rbt-splash-slider d-flex align-items-center">
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-lg-12 col-xl-6 order-2 order-xl-1">
+                    <div class="inner">
+
+                        <h1 class="title">Students web platform for
+                            <span class="cd-headline slide">
+                                <span class="cd-words-wrapper">
+                                    <b class="is-hidden theme-gradient">Suggestions.</b>
+                                    <b class="is-visible theme-gradient">Feedbacks.</b>
+                                    <b class="is-hidden theme-gradient">Ideas.</b>
+                                    <b class="is-hidden theme-gradient">Voting Ideas.</b>
+
+                                </span>
+                            </span>
+                        </h1>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 col-xl-6 order-1 order-xl-2">
+                    <div class="video-popup-wrapper">
+                        <img class="w-100 rbt-radius" src="{% static 'assets/images/splash/banner-group-image.png' %}"
+                            alt="Video Images">
+                        <a class="rbt-btn rounded-player-2 popup-video position-to-top with-animation d-none"
+                            href="https://www.youtube.com/watch?v=nA1Aqp0sPQo">
+                            <span class="play-icon"></span>
+                        </a>
+                        <div class="banner-group-shape">
+                            <div class="shape-image scene shape-4">
+                                <span data-depth="2">
+                                    <img src="{% static 'assets/images/splash/icons/shape-4.png' %}" alt="Shape Images">
+                                </span>
+                            </div>
+                            <div class="shape-image scene shape-5">
+                                <span data-depth="-2">
+                                    <img src="{% static 'assets/images/splash/icons/shape-5.png' %}" alt="Shape Images">
+                                </span>
+                            </div>
+                            <div class="shape-image scene shape-6">
+                                <span data-depth="5">
+                                    <img src="{% static 'assets/images/splash/icons/shape-6.png' %}" alt="Shape Images">
+                                </span>
+                            </div>
+                            <div class="shape-image scene shape-7">
+                                <span data-depth="-3">
+                                    <img src="{% static 'assets/images/splash/icons/shape-7.png' %}" alt="Shape Images">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="shape-wrapper">
+        <div class="shape-image shape-1">
+            <img src="{% static 'assets/images/splash/icons/shape-1.png' %}" alt="Shape Images">
+        </div>
+        <div class="shape-image shape-2">
+            <img src="{% static 'assets/images/splash/icons/shape-2.png' %}" alt="Shape Images">
+        </div>
+        <div class="shape-image shape-3">
+            <img src="{% static 'assets/images/splash/icons/shape-3.png' %}" alt="Shape Images">
+        </div>
+    </div>
+</div>
+<h1 class="text-center">Student Feedbacks</h1>
+<!-- Start Advance Tab  -->
+<div class="rbt-advance-tab-area splash-layout-presentation pb--40 bg-color-white">
+
+    <div class="wrapper">
+
+        <div class="container mt-5" style="width: 60%;">
+
+            {% for feedback in feedback_items %}
+            <ul class="feedback-list">
+                <!-- Feedback Item 1 -->
+                <li class="feedback-item">
+                    <div class="feedback-content">
+                        <p>{{ feedback.feedback_text }}.</p>
+                        <hr>
+                        <p class="text-muted">
+                            <small>Posted by: {{ feedback.student.user.first_name }}
+                                {{ feedback.student.user.last_name }} | Date:
+                                {{ feedback.created_at|date:"F j, Y" }}</small>
+                            <br>
+                            <small style="font-size: small;">Faculty | {{ feedback.student.faculty }}</small>
+                            <br>
+                            <small>Posted to: {{ feedback.teacher.user.first_name }}
+                                {{ feedback.teacher.user.last_name }} | position: {{ feedback.teacher.position }} |
+                                department: {{ feedback.teacher.department }}</small>
+
+                        </p>
+                    </div>
+                    <hr>
+                    <!-- Voting Buttons -->
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="btn-group">
+                            <input type="hidden" name="vote" value="{{ feedback.id }}">
+                            <button class="btn btn-sm btn-primary upvote"><i class="fas fa-thumbs-up"></i>
+                                Vote feedback</button>
+
+                            &nbsp;&nbsp;<span class="vote-count"> <b>Vote Count: {{ feedback.vote_set.count}}</b></span>
+                        </div>
+                    </form>
+
+                    <!-- Response Dropdown -->
+                    {% if user.is_authenticated %}
+                    {% if user.lecturer %}
+
+                    <div class="dropdown" style="margin-top: 10px;">
+                        <button class="btn btn-sm btn-info dropdown-toggle" type="button" data-toggle="collapse"
+                            data-target="#responseDropdown{{ feedback.id }}" aria-expanded="false">
+                            Respond to feedback
+                        </button>
+                        <div id="responseDropdown{{ feedback.id }}" class="collapse">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <!-- <label for="response1">Admin Response</label> -->
+                                    <!-- <textarea class="form-control" id="response1" rows="3" placeholder="Enter your response..."></textarea> -->
+                                    {% if form.errors %}
+                                    {{ form.errors}}
+                                    {% endif %}
+                                    <input type="hidden" name="vote" value="{{ feedback.id }}">x
+                                    {{ form.as_p}}
+                                </div>
+                                <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    <!-- Admin Response Section (Placeholder) -->
+
+
+                    <div class="dropdown" style="margin-top: 10px;">
+                        <form id="feebackForm" action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="vote" value="{{ feedback.id }}">
+                            <button class="btn btn-sm btn-info dropdown-toggle view-response-button" type="submit"
+                                data-toggle="collapse" data-target="#adminResponseDropdown{{ feedback.id }}" aria-expanded="false">
+                                <b> click here to View Responses</b>
+                            </button>
+                        </form>
+                        <div id="adminResponseDropdown{{ feedback.id }}" class="">
+                            {% for response in feedback_responses %}
+                                {% if response.feedback_id == feedback.id %}
+                                    <div class="response">
+                                        <p>{{ response.response_text }}</p>
+                                        <strong><b>{{ response.administrator.user.first_name }} {{ response.administrator.user.last_name }} (department: {{ response.administrator.department }})</b></strong>
+                                    </div>
+                                    <hr>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        
+                    </div>
+
+
+                    
+                    <!-- <div class="dropdown" style="margin-top: 10px;">
+                        <button class="btn btn-sm btn-info view-response-button" data-feedback-id="{{ feedback.id }}">
+                            <b> click here to View Responses</b>
+                        </button>
+                        <div id="adminResponseDropdown{{ feedback.id }}" class="">
+                            {% for response in feedback_responses %}
+                            {% if response.feedback_id == feedback.id %}
+                            <div class="response">
+                                <p>{{ response.response_text }}</p>
+                                <strong><b>{{ response.administrator.user.first_name }}
+                                        {{ response.administrator.user.last_name }} (department:
+                                        {{ response.administrator.department }})</b></strong>
+                            </div>
+                            <hr>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>  -->
+                </li>
+                <!-- Add more feedback items as needed -->
+            </ul>
+            {% endfor %}
+
+            
+        </div>
+
+
+
+    </div>
+</div>
+<!-- End Advance Tab  -->
+
+
+
+
+{% endblock content %}

@@ -5,7 +5,10 @@ class LecturerAuthenticationBackend(ModelBackend):
     def authenticate(self, request, username=None, lecturer_id=None, password=None, **kwargs):
         User = get_user_model()
         try:
-            lecturer = Lecturer.objects.get( lecturer_id=lecturer_id)
+            # Check if a lecturer with the specified lecturer_id exists
+            lecturer = Lecturer.objects.get(lecturer_id=lecturer_id)
+            # If a lecturer exists, return the associated user
             return lecturer.user
-        except User.DoesNotExist:
+        except Lecturer.DoesNotExist:
+            # If the lecturer does not exist, return None to indicate authentication failure
             return None
